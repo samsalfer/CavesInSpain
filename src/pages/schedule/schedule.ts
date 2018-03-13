@@ -14,6 +14,10 @@ import { UserData } from '../../providers/user-data';
 import { SessionDetailPage } from '../session-detail/session-detail';
 import { ScheduleFilterPage } from '../schedule-filter/schedule-filter';
 
+import { InAppBrowser } from '@ionic-native/in-app-browser';
+
+import { HttpProvider } from '../../providers/http/http';
+
 
 @Component({
   selector: 'page-schedule',
@@ -33,6 +37,7 @@ export class SchedulePage {
   shownSessions: any = [];
   groups: any = [];
   confDate: string;
+  usuarios : any[];
 
   constructor(
     public alertCtrl: AlertController,
@@ -43,6 +48,8 @@ export class SchedulePage {
     public toastCtrl: ToastController,
     public confData: ConferenceData,
     public user: UserData,
+    public inAppBrowser: InAppBrowser,
+    public http: HttpProvider
   ) {}
 
   ionViewDidLoad() {
@@ -94,6 +101,43 @@ export class SchedulePage {
     // and pass in the session data
 
     this.navCtrl.push(SessionDetailPage, { sessionId: sessionData.id, name: sessionData.name });
+  }
+
+  goToYoutube(sessionData: any) {
+
+      this.http.loadUsers().then(
+        (res) => {
+          this.usuarios = res['results'];
+          let data = this.usuarios.find((s: any) => s.id === sessionData.id);
+          if (data != null){
+            this.inAppBrowser.create(
+              //Video obtenido de la API
+            `${data.youtubeURL}`,
+              '_blank'
+            );
+          } else {
+            this.inAppBrowser.create(
+              //Video por defecto por si no lo encuentra
+            `https://www.youtube.com/watch?v=0eykC2TC4XY`,
+              '_blank'
+            );
+          }
+        },
+        (error) =>{
+          console.error(error);
+          this.inAppBrowser.create(
+            //Video por defecto por si hay error en la peticion
+          `https://www.youtube.com/watch?v=0eykC2TC4XY`,
+            '_blank'
+          );
+        }
+      )
+
+    //let usuarios = AboutPage.cargarUsuarios();
+    //console.log(usuarios);
+    //this.navCtrl.push(SessionDetailPage, { sessionId: sessionData.id, name: sessionData.name });
+    //`https://www.google.com/maps/dir/?api=1&destination=${speaker.latitud},${speaker.longitud}`,
+
   }
 
   addFavorite(slidingItem: ItemSliding, sessionData: any) {
