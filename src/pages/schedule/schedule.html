@@ -1,31 +1,38 @@
 <ion-header>
-  <ion-navbar no-border-bottom>
+  <ion-navbar>
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-
-    <ion-segment [(ngModel)]="segment" (ionChange)="updateSchedule()">
-      <ion-segment-button value="all">
-        All
-      </ion-segment-button>
-      <ion-segment-button value="favorites">
-        Favorites
-      </ion-segment-button>
-    </ion-segment>
-
-    <ion-buttons end>
-      <button ion-button icon-only (click)="presentFilter()">
-        <ion-icon ios="ios-options-outline" md="md-options"></ion-icon>
-      </button>
-    </ion-buttons>
+    <ion-header>
+7.	      <ion-toolbar align="center">
+8.	        <img class="img-menu" src="../assets/img/title.jpg" width="50%" height=auto alt="CavesInSpain">
+9.	      </ion-toolbar>
+10.	</ion-header>
+    <ion-title>Grutas</ion-title>
   </ion-navbar>
 
   <ion-toolbar no-border-top>
-    <ion-searchbar color="primary"
-                   [(ngModel)]="queryText"
-                   (ionInput)="updateSchedule()"
-                   placeholder="Search">
-    </ion-searchbar>
+    <ion-item>
+      <ion-icon name="pin" item-start></ion-icon>
+      <ion-label>Región</ion-label>
+      <ion-select (ionChange)="updateSchedule()" [(ngModel)]="queryText">
+        <ion-option value="" selected>Todas</ion-option>
+        <ion-option value="Aragón">Aragón</ion-option>
+        <ion-option value="Asturias">Asturias</ion-option>
+        <ion-option value="Baleares">Baleares</ion-option>
+        <ion-option value="Canarias">Canarias</ion-option>
+        <ion-option value="Cantabria">Cantabria</ion-option>
+        <ion-option value="Castilla la Mancha">Castilla la Mancha</ion-option>
+        <ion-option value="Castilla y León">Castilla y León</ion-option>
+        <ion-option value="Cataluña">Cataluña</ion-option>
+        <ion-option value="Comunidad Valenciana">Comunidad Valenciana</ion-option>
+        <ion-option value="Extremadura">Extremadura</ion-option>
+        <ion-option value="Madrid">Madrid</ion-option>
+        <ion-option value="Murcia">Murcia</ion-option>
+        <ion-option value="Navarra">Navarra</ion-option>
+        <ion-option value="País Vasco">País Vasco</ion-option>
+      </ion-select>
+    </ion-item>
   </ion-toolbar>
 </ion-header>
 
@@ -49,9 +56,9 @@
         <button ion-item (click)="goToSessionDetail(session)">
           <h3>{{session.name}}</h3>
           <p>
-            {{session.timeStart}} &mdash;
-            {{session.timeEnd}}:
-            {{session.location}}
+            {{session.latitud}} &mdash;
+            {{session.longitud}}:
+            {{session.localidad}}
           </p>
         </button>
 

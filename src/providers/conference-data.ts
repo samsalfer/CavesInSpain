@@ -97,7 +97,7 @@ export class ConferenceData {
     if (queryWords.length) {
       // of any query word is in the session name than it passes the query test
       queryWords.forEach((queryWord: string) => {
-        if (session.name.toLowerCase().indexOf(queryWord) > -1) {
+        if (session.region.toLowerCase().indexOf(queryWord) > -1) {
           matchesQueryText = true;
         }
       });

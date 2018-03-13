@@ -20,12 +20,32 @@ export class MapPage {
 
   ionViewDidLoad() {
 
+    let notify = function() {
+
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+      }
+
+      function showPosition(position) {
+          localStorage.setItem("longitude", position.coords.longitude);
+          localStorage.setItem("latitude", position.coords.latitude);
+      }
+
+    }
+
+    notify();
+
       this.confData.getMap().subscribe((mapData: any) => {
         let mapEle = this.mapElement.nativeElement;
 
+        let longitude = localStorage.getItem("longitude");
+        let latitude = localStorage.getItem("latitude");
+
+        let myLatlng = new google.maps.LatLng(latitude, longitude);
+
         let map = new google.maps.Map(mapEle, {
-          center: mapData.find((d: any) => d.center),
-          zoom: 16
+          center: myLatlng,
+          zoom: 10
         });
 
         mapData.forEach((markerData: any) => {

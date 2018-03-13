@@ -46,6 +46,22 @@ export class SchedulePage {
   ) {}
 
   ionViewDidLoad() {
+
+    let notify = function() {
+
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+      }
+
+      function showPosition(position) {
+          localStorage.setItem("longitude", position.coords.longitude);
+          localStorage.setItem("latitude", position.coords.latitude);
+      }
+
+    }
+
+    notify();
+
     this.app.setTitle('Schedule');
     this.updateSchedule();
   }
