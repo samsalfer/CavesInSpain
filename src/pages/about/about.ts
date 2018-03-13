@@ -14,6 +14,10 @@ export class AboutPage {
   usuarios : any[];
   constructor(public popoverCtrl: PopoverController,  public http: HttpProvider) { }
 
+  ngOnInit() {
+    this.cargarUsuarios();
+  }
+
   presentPopover(event: Event) {
     let popover = this.popoverCtrl.create(PopoverPage);
     popover.present({ ev: event });
