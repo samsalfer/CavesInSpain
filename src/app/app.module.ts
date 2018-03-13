@@ -28,6 +28,10 @@ import { SupportPage } from '../pages/support/support';
 
 import { ConferenceData } from '../providers/conference-data';
 import { UserData } from '../providers/user-data';
+import { HttpClientModule } from '@angular/common/http';
+import { HttpProvider } from '../providers/http/http';
+
+
 
 
 @NgModule({
@@ -50,6 +54,7 @@ import { UserData } from '../providers/user-data';
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     HttpModule,
     IonicModule.forRoot(ConferenceApp, {}, {
       links: [
@@ -93,7 +98,8 @@ import { UserData } from '../providers/user-data';
     ConferenceData,
     UserData,
     InAppBrowser,
-    SplashScreen
+    SplashScreen,
+    HttpProvider
   ]
 })
 export class AppModule { }
