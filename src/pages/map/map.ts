@@ -48,6 +48,22 @@ export class MapPage {
           zoom: 10
         });
 
+        let infoWindow1 = new google.maps.InfoWindow({
+          content: `TU LOCALIZACIÓN`
+        });
+        let image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
+        let marker1 = new google.maps.Marker({
+          position: myLatlng,
+          map: map,
+          icon: image,
+          animation: google.maps.Animation.DROP,
+          title: "TU"
+        });
+
+        marker1.addListener('click', () => {
+          infoWindow1.open(map, marker1);
+        });
+
         mapData.forEach((markerData: any) => {
           let infoWindow = new google.maps.InfoWindow({
             content: `<h5>${markerData.name}</h5>`

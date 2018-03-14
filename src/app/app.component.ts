@@ -19,6 +19,8 @@ import { SupportPage } from '../pages/support/support';
 import { ConferenceData } from '../providers/conference-data';
 import { UserData } from '../providers/user-data';
 
+import { InAppBrowser } from '@ionic-native/in-app-browser';
+
 export interface PageInterface {
   title: string;
   name: string;
@@ -42,10 +44,10 @@ export class ConferenceApp {
   // the left menu only works after login
   // the login page disables the left menu
   appPages: PageInterface[] = [
-    { title: 'LISTADO DE GRUTAS POR REGIÓN', name: 'TabsPage', component: TabsPage, tabComponent: SchedulePage, index: 0, icon: 'S-icon'},
-    { title: '¿QUÉ GRUTA TENGO MÁS CERCA?', name: 'TabsPage', component: TabsPage, tabComponent: MapPage, index: 2, icon: 'map-pin-icon' },
-    { title: 'VER CAVESINSPAIN EN VERSIÓN WEB', name: 'TabsPage', component: TabsPage, tabComponent: SpeakerListPage, index: 1, icon: 'web-icon'},
-    { title: '¡MI GRUTA PREFERIDA NO TIENE VIDEO!', name: 'TabsPage', component: TabsPage, tabComponent: AboutPage, index: 3, icon: 'sad-icon'}
+    { title: 'LISTADO DE GRUTAS POR REGIÓN', name: 'Grutas', component: TabsPage, tabComponent: SchedulePage, index: 0, icon: 'S-icon'},
+    { title: '¿QUÉ GRUTA TENGO MÁS CERCA?', name: 'Mapa', component: TabsPage, tabComponent: MapPage, index: 2, icon: 'map-pin-icon' },
+    { title: 'VER CAVESINSPAIN EN VERSIÓN WEB', name: 'Web', component: TabsPage, tabComponent: SpeakerListPage, index: 1, icon: 'web-icon'},
+    { title: '¡MI GRUTA PREFERIDA NO TIENE VIDEO!', name: 'Video', component: TabsPage, tabComponent: AboutPage, index: 3, icon: 'sad-icon'}
   ];
   loggedInPages: PageInterface[] = [
     { title: 'Account', name: 'AccountPage', component: AccountPage, icon: 'person' },
@@ -66,7 +68,8 @@ export class ConferenceApp {
     public platform: Platform,
     public confData: ConferenceData,
     public storage: Storage,
-    public splashScreen: SplashScreen
+    public splashScreen: SplashScreen,
+    public inAppBrowser: InAppBrowser,
   ) {
 
     // Check if the user has already seen the tutorial
@@ -95,33 +98,44 @@ export class ConferenceApp {
   openPage(page: PageInterface) {
     let params = {};
 
-    // the nav component was found using @ViewChild(Nav)
-    // setRoot on the nav to remove previous pages and only have this page
-    // we wouldn't want the back button to show in this scenario
-    if (page.index) {
-      params = { tabIndex: page.index };
-    }
+    if (page.name == 'Web'){
+      this.inAppBrowser.create(
+        //Acceso a la web
+      `https://cavesinspain.com/`,
+        '_blank'
+      );
+    } else if (page.name == 'Video'){
+      this.inAppBrowser.create(
+        //Acceso al video promocional
+      `https://www.youtube.com/watch?v=9TlLgFNjrwA`,
+        '_blank'
+      );
+    } else  {
 
-    // If we are already on tabs just change the selected tab
-    // don't setRoot again, this maintains the history stack of the
-    // tabs even if changing them from the menu
-    if (this.nav.getActiveChildNavs().length && page.index != undefined) {
-      this.nav.getActiveChildNavs()[0].select(page.index);
-    } else {
-      // Set the root of the nav with params if it's a tab index
-      this.nav.setRoot(page.name, params).catch((err: any) => {
-        console.log(`Didn't set nav root: ${err}`);
-      });
-    }
+          // the nav component was found using @ViewChild(Nav)
+          // setRoot on the nav to remove previous pages and only have this page
+          // we wouldn't want the back button to show in this scenario
+          if (page.index) {
+            params = { tabIndex: page.index };
+          }
 
-    if (page.logsOut === true) {
-      // Give the menu time to close before changing to logged out
-      this.userData.logout();
-    }
-  }
+          // If we are already on tabs just change the selected tab
+          // don't setRoot again, this maintains the history stack of the
+          // tabs even if changing them from the menu
+          if (this.nav.getActiveChildNavs().length && page.index != undefined) {
+            this.nav.getActiveChildNavs()[0].select(page.index);
+          } else {
+            // Set the root of the nav with params if it's a tab index
+            this.nav.setRoot(page.name, params).catch((err: any) => {
+              console.log(`Didn't set nav root: ${err}`);
+            });
+          }
 
-  openTutorial() {
-    this.nav.setRoot(TutorialPage);
+          if (page.logsOut === true) {
+            // Give the menu time to close before changing to logged out
+            this.userData.logout();
+          }
+    }
   }
 
   listenToLoginEvents() {
@@ -148,6 +162,13 @@ export class ConferenceApp {
     this.platform.ready().then(() => {
       this.splashScreen.hide();
     });
+  }
+
+  goToUrl() {
+    this.inAppBrowser.create(
+      `https://twitter.com/`,
+      '_blank'
+    );
   }
 
   isActive(page: PageInterface) {

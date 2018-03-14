@@ -21,13 +21,12 @@
       <!--</ion-list>-->
 
       <ion-item *ngFor="let p of appPages" #slidingItem style="background-color: #fec33b">
-        <button ion-item (click)="openPage(p)" style="background-color: #fec33b">
+        <button ion-item (click)="openPage(p)">
           <ion-avatar item-start>
             <img class="img-menu" src="../assets/img/menu/{{p.icon}}.png"  alt="hola" style="border-radius: 0px">
           </ion-avatar>
           <h2>{{p.title}}</h2>
         </button>
-
       </ion-item>
       <img class="img-menu" src="../assets/img/Banner-medium.jpg" width="100%" height=auto alt="hola" style="margin-bottom: -3px;">
       <img class="img-menu" src="../assets/img/menu/logo-ministerio.jpg" width="100%" height=auto alt="hola">
