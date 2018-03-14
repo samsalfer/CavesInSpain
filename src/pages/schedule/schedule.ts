@@ -107,20 +107,25 @@ export class SchedulePage {
 
       this.http.loadUsers().then(
         (res) => {
-          this.usuarios = res['results'];
+          this.usuarios = res['grutas'];
           let data = this.usuarios.find((s: any) => s.id === sessionData.id);
           if (data != null){
-            this.inAppBrowser.create(
-              //Video obtenido de la API
-            `${data.youtubeURL}`,
-              '_blank'
-            );
-          } else {
-            this.inAppBrowser.create(
-              //Video por defecto por si no lo encuentra
-            `https://www.youtube.com/watch?v=0eykC2TC4XY`,
-              '_blank'
-            );
+            if(data.youtubeURL!= null){
+
+
+              this.inAppBrowser.create(
+                //Video obtenido de la API
+              `${data.youtubeURL}`,
+                '_blank'
+              );
+            }
+            else {
+              this.inAppBrowser.create(
+                //Video por defecto por si no lo encuentra
+                `https://www.youtube.com/watch?v=0eykC2TC4XY`,
+                '_blank'
+              );
+            }
           }
         },
         (error) =>{

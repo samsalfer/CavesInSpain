@@ -12,7 +12,7 @@ import 'rxjs/add/operator/toPromise';
 @Injectable()
 export class HttpProvider {
 
-  path : string = 'https://randomuser.me/api/?results=25';
+  path : string = 'assets/data/youtube.json';
 
   constructor(public http: HttpClient) {
     console.log('Hello HttpProvider Provider');
