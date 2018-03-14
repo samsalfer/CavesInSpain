@@ -9,18 +9,28 @@
       </ion-toolbar>
     </ion-header>
 
-    <ion-content class="outer-content">
+    <ion-content >
+      <!--<ion-list>-->
+        <!--<button ion-item menuClose *ngFor="let p of appPages" (click)="openPage(p)" style="background-color: #fec33b" >-->
+          <!--<ion-avatar item-start>-->
+            <!--<img class="img-menu" src="../assets/img/menu/{{p.icon}}.png"  alt="hola" style="border-radius: 0px">-->
+          <!--</ion-avatar>-->
+            <!--&lt;!&ndash;<ion-icon item-start [name]="p.icon" [color]="isActive(p)"></ion-icon>&ndash;&gt;-->
+          <!--<h2>{{p.title}}</h2>-->
+        <!--</button>-->
+      <!--</ion-list>-->
 
-      <ion-list>
-        <button ion-item menuClose *ngFor="let p of appPages" (click)="openPage(p)" style="background-color: #fec33b" >
-          <img class="img-menu" src="../assets/img/menu/{{p.icon}}.png" width="10%" height=auto alt="hola">
-          <!--<ion-icon item-start [name]="p.icon" [color]="isActive(p)"></ion-icon>-->
-          {{p.title}}
+      <ion-item *ngFor="let p of appPages" #slidingItem style="background-color: #fec33b">
+        <button ion-item (click)="openPage(p)" style="background-color: #fec33b">
+          <ion-avatar item-start>
+            <img class="img-menu" src="../assets/img/menu/{{p.icon}}.png"  alt="hola" style="border-radius: 0px">
+          </ion-avatar>
+          <h2>{{p.title}}</h2>
         </button>
-      </ion-list>
+
+      </ion-item>
       <img class="img-menu" src="../assets/img/Banner-medium.jpg" width="100%" height=auto alt="hola" style="margin-bottom: -3px;">
       <img class="img-menu" src="../assets/img/menu/logo-ministerio.jpg" width="100%" height=auto alt="hola">
-
 
     </ion-content>
     <div>
